@@ -1,0 +1,26 @@
+Sistema de controle de viagens aéreas
+
+
+
+Equipe: Emanuel Henrique, Erik Gustavo, Marcos Costa e Valéria Ribeiro
+
+
+
+
+RF1 – O sistema deve permitir a criação de uma viagem
+RF2 – Uma viagem deve conter os locais de partida e chegada, o dia e horário de partida, os pilotos, os comissários de bordo e a lista de passageiros.
+RF3 – O sistema deve permitir o cadastro de funcionários que podem ser pilotos ou comissários de bordo, e devem conter nome, cpf, número de telefone e endereço.
+RF4 – O sistema deve permitir o cadastro de novos clientes
+RF5 – Os clientes devem conter nome, cpf, número de telefone e endereço.
+RF6 – Tanto os funcionários como os passageiros devem saber as viagens das quais irão participar.
+RF7 – O sistema deve permitir o cadastro de aviões que devem conter o modelo, capacidade máxima de pessoas, o peso máximo de carga suportado.
+RF8 – Cada viagem deve conter dois pilotos e três comissários de bordo.
+RF9 – A quantidade máxima de passageiros em uma viagem é dada pela capacidade máxima de pessoas no avião.
+RF10 – O sistema deve permitir adicionar ou remover um passageiro de uma determinada viagem.
+
+
+
+
+Regras de negócio:
+1.	Cada funcionário e passageiro só pode fazer uma viagem por dia.	
+2.	Não pode haver um intervalo entre dois voos menor que 15 minutos.
