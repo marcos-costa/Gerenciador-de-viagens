@@ -16,8 +16,9 @@ RF6 – Tanto os funcionários como os passageiros devem saber as viagens das qu
 RF7 – O sistema deve permitir o cadastro de aviões que devem conter o modelo, capacidade máxima de pessoas, o peso máximo de carga suportado.
 RF8 – Cada viagem deve conter dois pilotos e três comissários de bordo.
 RF9 – A quantidade máxima de passageiros em uma viagem é dada pela capacidade máxima de pessoas no avião.
-RF10 – O sistema deve permitir adicionar ou remover um passageiro de uma determinada viagem.
-
+RF10 – O sistema deve permitir adicionar ou remover passageiro, comissário ou piloto de uma determinada viagem.
+RF11 - O sistema deve permitir alterar os dados de uma viagem
+RF12 - O sistema deve permitir alterar os dados dos funcionários, dos pilotos e do avião
 
 
 
