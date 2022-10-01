@@ -2,21 +2,21 @@ import java.util.ArrayList;
 
 public class Comissario extends Funcionario{
 
-    private ArrayList<String> idiomas;
+    private String idiomaEstrangeiro;
     private ArrayList<Viagem> viagens;
 
-    public Comissario(String nome, String cpf, String telefone, ArrayList<String> idiomas){
+    public Comissario(String nome, String cpf, String telefone, String idiomas){
         super(nome, cpf, telefone);
-        this.idiomas = idiomas;
+        this.idiomaEstrangeiro = idiomas;
         this.viagens = new ArrayList<Viagem>();
     }
 
-    public ArrayList<String> getIdiomas() {
-        return idiomas;
+    public String getIdiomas() {
+        return idiomaEstrangeiro;
     }
 
-    public void setIdiomas(ArrayList<String> idiomas) {
-        this.idiomas = idiomas;
+    public void setIdiomas(String idiomas) {
+        this.idiomaEstrangeiro = idiomas;
     }
 
     public ArrayList<Viagem> getViagens(){

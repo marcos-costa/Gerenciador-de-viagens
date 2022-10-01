@@ -2,18 +2,18 @@ import java.util.ArrayList;
 
 public class Viagem {
 
-    private String CidPartida, CidChegada, HoraPartida, HoraChegada, Data;
+    private String CidPartida, CidChegada, HoraPartida, HoraChegada, data;
     private Aviao aviao;
     private Piloto piloto, coPiloto;
     private ArrayList<Comissario> comissarios;
     private ArrayList<Passageiro> passageiros;
 
-    public Viagem(String CidPartida, String CidChegada, String HoraPartida, String HoraChegada, String Data, Aviao aviao, Piloto piloto, Piloto copiloto, ArrayList<Comissario> comissarios){
+    public Viagem(String CidPartida, String CidChegada, String HoraPartida, String HoraChegada, String data, Aviao aviao, Piloto piloto, Piloto copiloto, ArrayList<Comissario> comissarios){
         this.CidPartida = CidPartida;
         this.CidChegada = CidChegada;
         this.HoraPartida = HoraPartida;
         this.HoraChegada = HoraChegada;
-        this.Data = Data;
+        this.data = data;
         this.aviao = aviao;
         this.piloto = piloto;
         this.coPiloto = copiloto;
@@ -53,12 +53,12 @@ public class Viagem {
         HoraChegada = horaChegada;
     }
 
-    public String getData() {
-        return Data;
+    public String getdata() {
+        return data;
     }
 
-    public void setData(String data) {
-        Data = data;
+    public void setdata(String data) {
+        this.data = data;
     }
 
     public Aviao getAviao() {
@@ -104,8 +104,10 @@ public class Viagem {
     }
     
     public void adicionarPassageiro(Passageiro passageiro){
-        this.passageiros.add(passageiro);
-        passageiro.adicionarViagem(this);
+        if (passageiros.size() < aviao.getCapacidadeMaxima()){
+            this.passageiros.add(passageiro);
+            passageiro.adicionarViagem(this);
+        }
     }
 
     public void adicionarComissario(ArrayList<Comissario> comissarios){
@@ -115,4 +117,15 @@ public class Viagem {
         this.comissarios = comissarios;
     }
 
+    public void listarPassageiros(){
+        System.out.println("-----Lista de passageiros-----");
+        for (int c = 0; c < passageiros.size(); c++){
+            System.out.println(passageiros.get(c).toString());
+        }
+    }
+
+    public void detalhes(){
+        System.out.println("----Informações da Viagem-----");
+        System.out.println("data: " + data + "\nPartida em " + CidPartida + " às " + HoraPartida + "\nChega em " + CidChegada + " às " + HoraChegada + "\n");
+    }
 }

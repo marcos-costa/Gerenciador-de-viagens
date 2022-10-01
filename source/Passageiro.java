@@ -48,4 +48,8 @@ public class Passageiro {
         this.viagens.add(viagem);
     }
 
+    public String toString(){
+        return new String("Nome: " + this.nome + "\nCPF: " + this.cpf + "\nTelefone: " + this.telefone + "\n");
+    }
+
 }
