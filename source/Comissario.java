@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Comissario extends Funcionario{
+public class Comissario extends Funcionario {
 
     private String idiomaEstrangeiro;
     private ArrayList<Viagem> viagens;

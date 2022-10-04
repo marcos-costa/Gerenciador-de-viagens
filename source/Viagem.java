@@ -1,6 +1,7 @@
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Viagem {
+public class Viagem implements Serializable{
 
     private String CidPartida, CidChegada, HoraPartida, HoraChegada, data;
     private Aviao aviao;

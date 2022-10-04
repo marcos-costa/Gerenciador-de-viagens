@@ -1,4 +1,6 @@
-public class Aviao {
+import java.io.Serializable;
+
+public class Aviao implements Serializable{
 
     private String modelo;
     private int capacidadeMaxima;
