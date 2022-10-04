@@ -8,13 +8,14 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class App implements Serializable{
+public class App{
+    static ArrayList<Comissario> comissarios = new ArrayList<>();
+    static ArrayList<Piloto> pilotos = new ArrayList<>();
+    static ArrayList<Passageiro> passageiros = new ArrayList<>();
+    static ArrayList<Aviao> avioes = new ArrayList<>();
+    static ArrayList<Viagem> viagens = new ArrayList<>();
     public static void main(String args[]){
-        ArrayList<Comissario> comissarios = new ArrayList<>();
-        ArrayList<Piloto> pilotos = new ArrayList<>();
-        ArrayList<Passageiro> passageiros = new ArrayList<>();
-        ArrayList<Aviao> avioes = new ArrayList<>();
-        ArrayList<Viagem> viagens = new ArrayList<>();
+        
 
         try{
             FileInputStream ler = new FileInputStream("dados.ser");
@@ -26,21 +27,19 @@ public class App implements Serializable{
             viagens = (ArrayList<Viagem>)ob.readObject();
 
             for(int i = 0; i < passageiros.size();i++){
-                System.out.println(passageiros.get(i).getNome());
+                System.out.println(passageiros.get(i).toString());
             }
+            
             ob.close();
             ler.close();
         }
         catch(Exception e){
             e.getStackTrace();
-            File arq = new File("dados.ser");
-            try {
-                arq.delete();
-                arq.createNewFile();
-                }
-            catch(IOException io){
-                e.getStackTrace();
-            }
+            comissarios = new ArrayList<>();
+            pilotos = new ArrayList<>();
+            passageiros = new ArrayList<>();
+            avioes = new ArrayList<>();
+            viagens = new ArrayList<>();
         }
 
         Comissario comissario1 = new Comissario("João Felipe", "632.759.214-24", "98462-4678", "Inglês");
@@ -52,7 +51,7 @@ public class App implements Serializable{
 
         Passageiro passageiro1 = new Passageiro("Marcos Costa", "765.712.324-01", "99642-5364");
         Passageiro passageiro2 = new Passageiro("Valéria Ribeiro", "963.584.567-86", "98246-9521");
-        Passageiro passageiro3 = new Passageiro("Eric Gustava", "963.852.741.64", "98541-3872");
+        Passageiro passageiro3 = new Passageiro("Eric Gustavo", "963.852.741.64", "98541-3872");
         Passageiro passageiro4 = new Passageiro("Emanuel Henrique", "354.286.435.84", "9934-7624");
         passageiros.add(passageiro1);
         passageiros.add(passageiro2);
@@ -63,7 +62,7 @@ public class App implements Serializable{
         Piloto piloto2 = new Piloto("Maria dos Santos", "854.632.735-21", "99634-2764", "PLA");
         pilotos.add(piloto1);
         pilotos.add(piloto2);
-        Aviao aviao1 = new Aviao("boing 762", 20);
+        Aviao aviao1 = new Aviao("Boeing 762", 20);
         avioes.add(aviao1);
 
         Viagem viagem1 = new Viagem("Manaus", "São Paulo", "13:15", "15:00", "02/12/2022", aviao1, piloto1, piloto2, comissarios);
@@ -74,9 +73,10 @@ public class App implements Serializable{
         viagem1.adicionarPassageiro(passageiro3);
         viagem1.adicionarPassageiro(passageiro4);
 
-        //viagem1.detalhes();
-        //viagem1.listarPassageiros();
-        
+        serializacao();
+
+    }
+    public static void serializacao(){
         try{
             FileOutputStream fout = new FileOutputStream("dados.ser");
             ObjectOutputStream objOutput = new ObjectOutputStream(fout);
@@ -93,4 +93,5 @@ public class App implements Serializable{
             e.printStackTrace();
         }
     }
+    
 }
