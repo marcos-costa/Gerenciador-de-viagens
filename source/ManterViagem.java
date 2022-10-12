@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 /**
  *
  * @author Valéria
@@ -435,9 +436,8 @@ public class ManterViagem extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField7ActionPerformed
 
     private void myJButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton3ActionPerformed
-        PrimeiraTela frame = new PrimeiraTela();
-        ManterViagem.this.dispose();
-        frame.setVisible(true);
+        PrimeiraTela.iniciar();
+        this.dispose();
     }//GEN-LAST:event_myJButton3ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
@@ -451,7 +451,7 @@ public class ManterViagem extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -478,7 +478,13 @@ public class ManterViagem extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManterViagem().setVisible(true);
+                javax.swing.JFrame tela = new ManterViagem();
+                tela.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e){
+                        App.serializar();
+                    }
+                });
+                tela.setVisible(true);
             }
         });
     }

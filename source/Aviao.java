@@ -4,10 +4,12 @@ public class Aviao implements Serializable{
 
     private String modelo;
     private int capacidadeMaxima;
+    private int numeroMaximoViagens;
 
-    public Aviao(String modelo, int capacidadeMaxima){
+    public Aviao(String modelo, int capacidadeMaxima, int numeroMaximo){
         this.modelo = modelo;
         this.capacidadeMaxima = capacidadeMaxima;
+        this.numeroMaximoViagens = numeroMaximo;
     }
     
     public String getModelo() {
@@ -25,4 +27,13 @@ public class Aviao implements Serializable{
     public void setCapacidadeMaxima(int capacidadeMaxima) {
         this.capacidadeMaxima = capacidadeMaxima;
     }
+
+    public int getNumeroMaximoViagens() {
+        return numeroMaximoViagens;
+    }
+
+    public void setNumeroMaximoViagens(int numeroMaximoViagens) {
+        this.numeroMaximoViagens = numeroMaximoViagens;
+    }
+    
 }

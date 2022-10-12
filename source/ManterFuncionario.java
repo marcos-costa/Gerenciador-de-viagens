@@ -5,7 +5,9 @@
 
 
 import javax.swing.table.DefaultTableModel;
-
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 /**
  *
  * @author Valéria
@@ -17,6 +19,17 @@ public class ManterFuncionario extends javax.swing.JFrame {
      */
     public ManterFuncionario() {
         initComponents();
+        DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+        ArrayList<Piloto> pilotos = App.getPilotos();
+        for(int i = 0; i < pilotos.size(); i++){
+            mode.addRow(new Object[] {pilotos.get(i).getNome(), pilotos.get(i).getCpf(), pilotos.get(i).getTelefone(), pilotos.get(i).getHabilitacao()});
+        }
+        
+        mode = (DefaultTableModel) tableStyle2.getModel();
+        ArrayList<Comissario> comissarios = App.getComissarios();
+        for (int i = 0; i < comissarios.size(); i++){
+            mode.addRow(new Object [] {comissarios.get(i).getNome(), comissarios.get(i).getCpf(), comissarios.get(i).getTelefone(), comissarios.get(i).getIdiomas()});
+        }
     }
 
     /**
@@ -38,18 +51,14 @@ public class ManterFuncionario extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jTextField6 = new javax.swing.JTextField();
-        myJButton1 = new 
-MyJButton();
-        myJButton2 = new 
-MyJButton();
-        myJButton3 = new 
-MyJButton();
+        myJButton1 = new MyJButton();
+        myJButton2 = new MyJButton();
+        myJButton3 = new MyJButton();
         jLabel5 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tableStyle1 = new 
-TableStyle();
+        tableStyle1 = new TableStyle();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -63,18 +72,14 @@ TableStyle();
         jLabel10 = new javax.swing.JLabel();
         jTextField7 = new javax.swing.JTextField();
         jTextField8 = new javax.swing.JTextField();
-        myJButton4 = new 
-MyJButton();
-        myJButton5 = new 
-MyJButton();
-        myJButton6 = new 
-MyJButton();
+        myJButton4 = new MyJButton();
+        myJButton5 = new MyJButton();
+        myJButton6 = new MyJButton();
         jLabel11 = new javax.swing.JLabel();
         jComboBox3 = new javax.swing.JComboBox<>();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tableStyle2 = new 
-TableStyle();
+        tableStyle2 = new TableStyle();
         jComboBox4 = new javax.swing.JComboBox<>();
         jTextField4 = new javax.swing.JTextField();
 
@@ -616,17 +621,20 @@ TableStyle();
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
         if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
         else{
+            ArrayList<Piloto> pilotos = App.getPilotos();
+            Piloto novoPiloto = new Piloto(jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem().toString());
+            pilotos.add(novoPiloto);
+            App.setPilotos(pilotos);
+
             DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
-            //Inserir valores na tabela
-            mode.addRow(new Object[] {jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem()});
+            mode.addRow(new Object[] {jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem().toString()});
             jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);
         }
     }//GEN-LAST:event_myJButton2ActionPerformed
 
     private void myJButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton3ActionPerformed
-        PrimeiraTela frame = new PrimeiraTela();
-        ManterFuncionario.this.dispose();
-        frame.setVisible(true);
+        PrimeiraTela.iniciar();
+        this.dispose();
     }//GEN-LAST:event_myJButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -652,6 +660,11 @@ TableStyle();
     private void myJButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton5ActionPerformed
         if (jTextField3.getText().trim().isEmpty() && jTextField7.getText().trim().isEmpty() && jTextField8.getText().trim().isEmpty());
         else{
+            ArrayList<Comissario> comissarios = App.getComissarios();
+            Comissario novoComissario = new Comissario(jTextField8.getText(), jTextField3.getText(), jTextField7.getText(), jComboBox3.getSelectedItem().toString());
+            comissarios.add(novoComissario);
+            App.setComissarios(comissarios);
+
             DefaultTableModel mode = (DefaultTableModel) tableStyle2.getModel();
             //Inserir valores na tabela
             mode.addRow(new Object[] {jTextField8.getText(), jTextField3.getText(),jTextField7.getText(),jComboBox3.getSelectedItem()});
@@ -660,9 +673,8 @@ TableStyle();
     }//GEN-LAST:event_myJButton5ActionPerformed
 
     private void myJButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton6ActionPerformed
-        PrimeiraTela frame = new PrimeiraTela();
-        ManterFuncionario.this.dispose();
-        frame.setVisible(true);
+        PrimeiraTela.iniciar();
+        this.dispose();
     }//GEN-LAST:event_myJButton6ActionPerformed
 
     private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
@@ -672,7 +684,7 @@ TableStyle();
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -699,7 +711,13 @@ TableStyle();
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManterFuncionario().setVisible(true);
+                javax.swing.JFrame tela = new ManterFuncionario();
+                tela.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e){
+                        App.serializar();
+                    }
+                });
+                tela.setVisible(true);
             }
         });
     }

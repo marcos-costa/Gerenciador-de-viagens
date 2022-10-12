@@ -3,6 +3,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.table.DefaultTableModel;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -210,21 +213,18 @@ public class PrimeiraTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ManterViagem frame = new ManterViagem();
-        PrimeiraTela.this.dispose();
-        frame.setVisible(true);
+        ManterViagem.iniciar();
+        this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        ManterViagem frame = new ManterViagem();
-        PrimeiraTela.this.dispose();
-        frame.setVisible(true);
+        ManterViagem.iniciar();
+        this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        CadastrarPassageiro frame = new CadastrarPassageiro();
-        PrimeiraTela.this.dispose();
-        frame.setVisible(true);
+        CadastrarPassageiro.iniciar();
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -232,21 +232,19 @@ public class PrimeiraTela extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        ManterAvião frame = new ManterAvião();
-        PrimeiraTela.this.dispose();
-        frame.setVisible(true);
+        ManterAvião.iniciar();
+        this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        ManterFuncionario frame = new ManterFuncionario();
-        PrimeiraTela.this.dispose();
-        frame.setVisible(true);
+        ManterFuncionario.iniciar();
+        this.dispose();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -273,7 +271,13 @@ public class PrimeiraTela extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PrimeiraTela().setVisible(true);
+                javax.swing.JFrame tela = new PrimeiraTela();
+                tela.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e){
+                        App.serializar();
+                    }
+                });
+                tela.setVisible(true);
             }
         });
     }

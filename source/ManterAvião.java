@@ -4,7 +4,9 @@
  */
 
 import javax.swing.table.DefaultTableModel;
-
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowAdapter;
+import java.util.ArrayList;
 /**
  *
  * @author Marcos
@@ -18,8 +20,9 @@ public class ManterAvião extends javax.swing.JFrame {
         initComponents();
         DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
         //Inserir valores na tabela
-        for(int i=0;i<=30;i++){
-        mode.addRow(new Object[] {"Boeing K98", "58",72.200,325});
+        ArrayList<Aviao> avioes = App.getAvioes();
+        for(int i=0;i<avioes.size();i++){
+            mode.addRow(new Object[] {avioes.get(i).getModelo(), avioes.get(i).getCapacidadeMaxima(),avioes.get(i).getNumeroMaximoViagens()}    );
     }
     }
 
@@ -64,7 +67,7 @@ public class ManterAvião extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Modelo", "Capacidade Máxima (Kg)", "Nº Máx. de viagens"
+                "Modelo", "Capacidade Máxima", "Nº Máx. de viagens"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -123,7 +126,7 @@ public class ManterAvião extends javax.swing.JFrame {
         jLabel2.setText("Modelo:");
 
         jLabel3.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        jLabel3.setText("Capacidade Máxima (Kg):");
+        jLabel3.setText("Capacidade Máxima");
 
         jLabel4.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
         jLabel4.setText("Nº Máximo de viagens:");
@@ -311,12 +314,23 @@ public class ManterAvião extends javax.swing.JFrame {
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
         
+        
+        if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
+        else{
+            ArrayList<Aviao> avioes = App.getAvioes();
+            Aviao novoAviao = new Aviao(jTextField6.getText(),Integer.parseInt(jTextField2.getText()), Integer.parseInt(jTextField5.getText()));
+            avioes.add(novoAviao);
+            App.setAvioes(avioes);
+            DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+            //Inserir valores na tabela
+            mode.addRow(new Object[] {jTextField6.getText(), jTextField2.getText(),jTextField5.getText()});
+            jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);
+        }
     }//GEN-LAST:event_myJButton2ActionPerformed
 
     private void myJButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton3ActionPerformed
-        PrimeiraTela frame = new PrimeiraTela();
-        ManterAvião.this.dispose();
-        frame.setVisible(true);
+        PrimeiraTela.iniciar();
+        this.dispose();
     }//GEN-LAST:event_myJButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -326,7 +340,7 @@ public class ManterAvião extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -354,7 +368,13 @@ public class ManterAvião extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ManterAvião().setVisible(true);
+                javax.swing.JFrame tela = new ManterAvião();
+                tela.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e){
+                        App.serializar();
+                    }
+                });
+                tela.setVisible(true);
             }
         });
     }

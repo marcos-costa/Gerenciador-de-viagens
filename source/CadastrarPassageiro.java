@@ -3,6 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
+import java.util.ArrayList;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -10,16 +14,17 @@ import javax.swing.table.DefaultTableModel;
  * @author Marcos
  */
 public class CadastrarPassageiro extends javax.swing.JFrame {
-
+    private ArrayList<Passageiro> passageiros = App.getPassageiros();
     /**
      * Creates new form CadastrarPassageiro
      */
     public CadastrarPassageiro() {
         initComponents();
-        DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+        
         //Inserir valores na tabela
-        for(int i=0;i<=30;i++){
-        mode.addRow(new Object[] {"Marcos Costa", "928.345.286-54","99314-6284"});
+        DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+        for(int i=0;i<passageiros.size();i++){
+            mode.addRow(new Object[] {passageiros.get(i).getNome(), passageiros.get(i).getCpf(), passageiros.get(i).getTelefone()});
     }
     }
 
@@ -308,13 +313,24 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     }//GEN-LAST:event_myJButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
+        if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
+        else{
+            ArrayList<Passageiro> passageiros = App.getPassageiros();
+            Passageiro novoPassageiro = new Passageiro(jTextField6.getText(),jTextField2.getText(),jTextField5.getText());
+            passageiros.add(novoPassageiro);
+            App.setPassageiros(passageiros);
+            DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+            //Inserir valores na tabela
+            mode.addRow(new Object[] {novoPassageiro.getNome(), novoPassageiro.getCpf(),novoPassageiro.getTelefone()});
+            jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);
+        }
+    }
         
-    }//GEN-LAST:event_myJButton2ActionPerformed
+    //GEN-LAST:event_myJButton2ActionPerformed
 
     private void myJButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton3ActionPerformed
-        PrimeiraTela frame = new PrimeiraTela();
-        CadastrarPassageiro.this.dispose();
-        frame.setVisible(true);
+        PrimeiraTela.iniciar();
+        this.dispose();
     }//GEN-LAST:event_myJButton3ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -324,7 +340,7 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
+    public static void iniciar() {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -351,7 +367,13 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CadastrarPassageiro().setVisible(true);
+                javax.swing.JFrame tela = new CadastrarPassageiro();
+                tela.addWindowListener(new WindowAdapter() {
+                    public void windowClosing(WindowEvent e){
+                        App.serializar();
+                    }
+                });
+                tela.setVisible(true);
             }
         });
     }
@@ -376,5 +398,6 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     private MyJButton myJButton2;
     private MyJButton myJButton3;
     private TableStyle tableStyle1;
+    
     // End of variables declaration//GEN-END:variables
 }

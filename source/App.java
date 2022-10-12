@@ -34,7 +34,7 @@ public class App {
             viagens = new ArrayList<>();
         }
         
-        serializar();
+        PrimeiraTela.iniciar();
         
     }
 
