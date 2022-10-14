@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -103,11 +104,6 @@ public class ManterFuncionario extends javax.swing.JFrame {
         jTextField2.setBackground(new java.awt.Color(207, 241, 246));
         jTextField2.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
 
         jPanel4.setBackground(new java.awt.Color(0, 196, 204));
 
@@ -137,20 +133,12 @@ public class ManterFuncionario extends javax.swing.JFrame {
         jTextField5.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jTextField5.setCaretColor(new java.awt.Color(0, 204, 204));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
+
 
         jTextField6.setBackground(new java.awt.Color(207, 241, 246));
         jTextField6.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+
 
         myJButton1.setText("Alterar");
         myJButton1.setCorHover(new java.awt.Color(0, 200, 142));
@@ -167,7 +155,7 @@ public class ManterFuncionario extends javax.swing.JFrame {
         myJButton2.setActionCommand("");
         myJButton2.setCorHover(new java.awt.Color(0, 200, 142));
         myJButton2.setCorSelected(new java.awt.Color(255, 0, 0));
-        myJButton2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        myJButton2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 17)); // NOI18N
         myJButton2.setRadius(20);
         myJButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -191,7 +179,7 @@ public class ManterFuncionario extends javax.swing.JFrame {
 
         jComboBox2.setBackground(new java.awt.Color(0, 118, 128));
         jComboBox2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Piloto Privado (PP)", "Piloto Comercial (PC)", "Licença de piloto de linha aérea (PLA)." }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Piloto Privado (PP)", "Piloto Comercial (PC)", "Licença de piloto de linha aérea (PLA)" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -272,16 +260,32 @@ public class ManterFuncionario extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(0, 118, 128));
         jComboBox1.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Local Partida", "Data" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Nome", "Cpf", "Telefone", "Habilitação" }));
+        
 
         jTextField1.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 196, 204), 2, true));
         jTextField1.setCaretColor(new java.awt.Color(0, 196, 204));
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e){}
+            public void insertUpdate(DocumentEvent e){
+                buscarPiloto();
+            }
+            public void removeUpdate(DocumentEvent e){
+                if(jTextField1.getText().trim().isEmpty()){
+                    DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+                    while(mode.getRowCount() != 0){
+                        mode.removeRow(0);
+                    }
+                    for(int i=0;i<pilotos.size();i++){
+                        mode.addRow(new Object[] {pilotos.get(i).getNome(), pilotos.get(i).getCpf(), pilotos.get(i).getTelefone(), pilotos.get(i).getHabilitacao()});
+                    }
+                }
+                else{
+                    buscarPiloto();
+                }
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -344,11 +348,6 @@ public class ManterFuncionario extends javax.swing.JFrame {
         jTextField3.setBackground(new java.awt.Color(207, 241, 246));
         jTextField3.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField3.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
-            }
-        });
 
         jPanel8.setBackground(new java.awt.Color(0, 196, 204));
 
@@ -378,20 +377,12 @@ public class ManterFuncionario extends javax.swing.JFrame {
         jTextField7.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField7.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jTextField7.setCaretColor(new java.awt.Color(0, 204, 204));
-        jTextField7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField7ActionPerformed(evt);
-            }
-        });
+
 
         jTextField8.setBackground(new java.awt.Color(207, 241, 246));
         jTextField8.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField8.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField8ActionPerformed(evt);
-            }
-        });
+
 
         myJButton4.setText("Alterar");
         myJButton4.setCorHover(new java.awt.Color(0, 200, 142));
@@ -408,7 +399,7 @@ public class ManterFuncionario extends javax.swing.JFrame {
         myJButton5.setActionCommand("");
         myJButton5.setCorHover(new java.awt.Color(0, 200, 142));
         myJButton5.setCorSelected(new java.awt.Color(255, 0, 0));
-        myJButton5.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        myJButton5.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 17)); // NOI18N
         myJButton5.setRadius(20);
         myJButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -511,16 +502,32 @@ public class ManterFuncionario extends javax.swing.JFrame {
 
         jComboBox4.setBackground(new java.awt.Color(0, 118, 128));
         jComboBox4.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Local Partida", "Data" }));
-        jComboBox4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox4ActionPerformed(evt);
-            }
-        });
+        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Nome", "Cpf", "Telefone", "Idioma" }));
+
 
         jTextField4.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 196, 204), 2, true));
         jTextField4.setCaretColor(new java.awt.Color(0, 196, 204));
+        jTextField4.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e){}
+            public void insertUpdate(DocumentEvent e){
+                buscarComissario();
+            }
+            public void removeUpdate(DocumentEvent e){
+                if(jTextField4.getText().trim().isEmpty()){
+                    DefaultTableModel mode = (DefaultTableModel) tableStyle2.getModel();
+                    while(mode.getRowCount() != 0){
+                        mode.removeRow(0);
+                    }
+                    for(int i=0;i<comissarios.size();i++){
+                        mode.addRow(new Object[] {comissarios.get(i).getNome(), comissarios.get(i).getCpf(), comissarios.get(i).getTelefone(), comissarios.get(i).getIdiomas()});
+                    }
+                }
+                else{
+                    buscarComissario();
+                }
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -602,34 +609,67 @@ public class ManterFuncionario extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton1ActionPerformed
+        if(alterarpiloto){
+            alterarpiloto = false;
+            pilotos.remove(tableStyle1.getSelectedRow());
+            jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null); jComboBox2.setSelectedIndex(0);
+            myJButton1.setText("ALTERAR");
+            myJButton2.setText("CADASTRAR");
+            DefaultTableModel model = (DefaultTableModel) tableStyle1.getModel();
+            model.removeRow(tableStyle1.getSelectedRow());
+        }
+        else{
+            if(tableStyle1.getSelectedRow() != -1){
+                alterarpiloto = true;
+                Piloto piloto = pilotos.get(tableStyle1.getSelectedRow());
+                jTextField6.setText(piloto.getNome());
+                jTextField2.setText(piloto.getCpf());
+                jTextField5.setText(piloto.getTelefone());
+                if(piloto.getHabilitacao().equals("Piloto Privado (PP)")){jComboBox2.setSelectedIndex(0);}
+                else if(piloto.getHabilitacao().equals("Piloto Comercial (PC)")){jComboBox2.setSelectedIndex(1);}
+                else{jComboBox2.setSelectedIndex(2);}
+                myJButton1.setText("EXCLUIR");
+                myJButton2.setText("CONFIRMAR");
+            }
+        }
 
     }//GEN-LAST:event_myJButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
-        if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
-        else{
-            ArrayList<Piloto> pilotos = App.getPilotos();
-            Piloto novoPiloto = new Piloto(jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem().toString());
-            pilotos.add(novoPiloto);
-            App.setPilotos(pilotos);
+        if(alterarpiloto){
+            alterarpiloto = false;
+            Piloto piloto = pilotos.get(tableStyle1.getSelectedRow());
 
-            DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
-            mode.addRow(new Object[] {jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem().toString()});
-            jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);
+            piloto.setNome(jTextField6.getText());
+            piloto.setCpf(jTextField2.getText());
+            piloto.setTelefone(jTextField5.getText());
+            piloto.setHabilitacao(jComboBox2.getSelectedItem().toString());
+            
+            jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);jComboBox2.setSelectedIndex(0);
+
+            tableStyle1.setValueAt(piloto.getNome(), tableStyle1.getSelectedRow(), 0);
+            tableStyle1.setValueAt(piloto.getCpf(), tableStyle1.getSelectedRow(), 1);
+            tableStyle1.setValueAt(piloto.getTelefone(), tableStyle1.getSelectedRow(), 2);
+            tableStyle1.setValueAt(piloto.getHabilitacao(), tableStyle1.getSelectedRow(), 3);
+
+            myJButton1.setText("ALTERAR");
+            myJButton2.setText("CADASTRAR");
         }
+        else{
+            if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
+            else{
+                Piloto novoPiloto = new Piloto(jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem().toString());
+                pilotos.add(novoPiloto);
+                App.setPilotos(pilotos);
+
+                DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+                mode.addRow(new Object[] {jTextField6.getText(), jTextField2.getText(),jTextField5.getText(),jComboBox2.getSelectedItem().toString()});
+                jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);jComboBox2.setSelectedIndex(0);
+            }            
+        }
+
     }//GEN-LAST:event_myJButton2ActionPerformed
 
     private void myJButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton3ActionPerformed
@@ -637,39 +677,74 @@ public class ManterFuncionario extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_myJButton3ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
-
-    private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField7ActionPerformed
-
-    private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField8ActionPerformed
 
     private void myJButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton4ActionPerformed
-        // TODO add your handling code here:
+        if(alterarcomissario){
+            alterarcomissario = false;
+            comissarios.remove(tableStyle2.getSelectedRow());
+            jTextField8.setText(null); jTextField3.setText(null); jTextField7.setText(null); jComboBox3.setSelectedIndex(0);
+            myJButton4.setText("ALTERAR");
+            myJButton5.setText("CADASTRAR");
+            DefaultTableModel model = (DefaultTableModel) tableStyle2.getModel();
+            model.removeRow(tableStyle2.getSelectedRow());
+        }
+        else{
+            if(tableStyle2.getSelectedRow() != -1){
+                alterarcomissario = true;
+                Comissario comissario = comissarios.get(tableStyle2.getSelectedRow());
+                jTextField8.setText(comissario.getNome());
+                jTextField3.setText(comissario.getCpf());
+                jTextField7.setText(comissario.getTelefone());
+
+                myJButton4.setText("EXCLUIR");
+                myJButton5.setText("CONFIRMAR");
+
+                for (int c = 0; c < 12; c++){
+                    if(comissario.getIdiomas().equals(jComboBox3.getItemAt(c).toString())){
+                        jComboBox3.setSelectedIndex(c);
+                        break;
+                    }
+                }
+            }
+
+            
+
+        }
     }//GEN-LAST:event_myJButton4ActionPerformed
 
     private void myJButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton5ActionPerformed
-        if (jTextField3.getText().trim().isEmpty() && jTextField7.getText().trim().isEmpty() && jTextField8.getText().trim().isEmpty());
-        else{
-            ArrayList<Comissario> comissarios = App.getComissarios();
-            Comissario novoComissario = new Comissario(jTextField8.getText(), jTextField3.getText(), jTextField7.getText(), jComboBox3.getSelectedItem().toString());
-            comissarios.add(novoComissario);
-            App.setComissarios(comissarios);
+        if(alterarcomissario){
+            alterarcomissario = false;
+            Comissario comissario = comissarios.get(tableStyle2.getSelectedRow());
 
-            DefaultTableModel mode = (DefaultTableModel) tableStyle2.getModel();
-            //Inserir valores na tabela
-            mode.addRow(new Object[] {jTextField8.getText(), jTextField3.getText(),jTextField7.getText(),jComboBox3.getSelectedItem()});
-            jTextField3.setText(null);jTextField7.setText(null);jTextField8.setText(null);
+            comissario.setNome(jTextField8.getText());
+            comissario.setCpf(jTextField3.getText());
+            comissario.setTelefone(jTextField7.getText());
+            comissario.setIdiomas(jComboBox3.getSelectedItem().toString());
+            
+            jTextField8.setText(null);jTextField3.setText(null);jTextField7.setText(null);jComboBox3.setSelectedIndex(0);
+
+            tableStyle2.setValueAt(comissario.getNome(), tableStyle2.getSelectedRow(), 0);
+            tableStyle2.setValueAt(comissario.getCpf(), tableStyle2.getSelectedRow(), 1);
+            tableStyle2.setValueAt(comissario.getTelefone(), tableStyle2.getSelectedRow(), 2);
+            tableStyle2.setValueAt(comissario.getIdiomas(), tableStyle2.getSelectedRow(), 3);
+
+            myJButton4.setText("ALTERAR");
+            myJButton5.setText("CADASTRAR");
         }
+        else{
+            if (jTextField3.getText().trim().isEmpty() && jTextField7.getText().trim().isEmpty() && jTextField8.getText().trim().isEmpty());
+            else{
+                Comissario novoComissario = new Comissario(jTextField8.getText(), jTextField3.getText(), jTextField7.getText(), jComboBox3.getSelectedItem().toString());
+                comissarios.add(novoComissario);
+
+                DefaultTableModel mode = (DefaultTableModel) tableStyle2.getModel();
+                //Inserir valores na tabela
+                mode.addRow(new Object[] {jTextField8.getText(), jTextField3.getText(),jTextField7.getText(),jComboBox3.getSelectedItem().toString()});
+                jTextField3.setText(null);jTextField7.setText(null);jTextField8.setText(null);jComboBox3.setSelectedIndex(0);
+            }            
+        }
+
     }//GEN-LAST:event_myJButton5ActionPerformed
 
     private void myJButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton6ActionPerformed
@@ -677,10 +752,114 @@ public class ManterFuncionario extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_myJButton6ActionPerformed
 
-    private void jComboBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox4ActionPerformed
+    private void buscarPiloto(){
+        DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+        while(mode.getRowCount() != 0){
+            mode.removeRow(0);
+        }
+        switch(jComboBox1.getSelectedIndex()){
+            case 0:
+                for (int c = 0; c < pilotos.size(); c++){
+                    mode.addRow(new Object[] {pilotos.get(c).getNome(), pilotos.get(c).getCpf(), pilotos.get(c).getTelefone(), pilotos.get(c).getHabilitacao()});
+                }
+                break;
+            case 1:
+                for (int c = 0; c < pilotos.size(); c++){
+                    try{
+                        if(pilotos.get(c).getNome().substring(0, jTextField1.getText().length()).toUpperCase().equals(jTextField1.getText().toUpperCase())){
+                            mode.addRow(new Object[] {pilotos.get(c).getNome(), pilotos.get(c).getCpf(), pilotos.get(c).getTelefone(), pilotos.get(c).getHabilitacao()});
+                        }
+                    }
+                    catch(Exception e){}
+                }
+                break;
+            case 2:
+                for (int c = 0; c < pilotos.size(); c++){
+                    try{
+                        if(pilotos.get(c).getCpf().substring(0, jTextField1.getText().length()).equals(jTextField1.getText())){
+                            mode.addRow(new Object[] {pilotos.get(c).getNome(), pilotos.get(c).getCpf(), pilotos.get(c).getTelefone(), pilotos.get(c).getHabilitacao()});
+                        }
+                    }
+                    catch(Exception e){}
+                }
+                break;
+            case 3:
+                for (int c = 0; c < pilotos.size(); c++){
+                    try{
+                        if(pilotos.get(c).getTelefone().substring(0, jTextField1.getText().length()).equals(jTextField1.getText())){
+                            mode.addRow(new Object[] {pilotos.get(c).getNome(), pilotos.get(c).getCpf(), pilotos.get(c).getTelefone(), pilotos.get(c).getHabilitacao()});
+                        }                        
+                    }
+                    catch(Exception e){}
 
+                }
+                break;
+            case 4:
+                for (int c = 0; c < pilotos.size(); c++){
+                    try{
+                        if(pilotos.get(c).getHabilitacao().substring(0, jTextField1.getText().length()).toUpperCase().equals(jTextField1.getText().toUpperCase())){
+                            mode.addRow(new Object[] {pilotos.get(c).getNome(), pilotos.get(c).getCpf(), pilotos.get(c).getTelefone(), pilotos.get(c).getHabilitacao()});
+                        }                        
+                    }
+                    catch(Exception e){}
+                }
+                break;
+        }
+    }
+    private void buscarComissario(){
+        DefaultTableModel mode = (DefaultTableModel) tableStyle2.getModel();
+        while(mode.getRowCount() != 0){
+            mode.removeRow(0);
+        }
+        switch(jComboBox4.getSelectedIndex()){
+            case 0:
+                for (int c = 0; c < comissarios.size(); c++){
+                    mode.addRow(new Object[] {comissarios.get(c).getNome(), comissarios.get(c).getCpf(), comissarios.get(c).getTelefone(), comissarios.get(c).getIdiomas()});
+                }
+                break;
+            case 1:
+                for (int c = 0; c < comissarios.size(); c++){
+                    try{
+                        if(comissarios.get(c).getNome().substring(0, jTextField4.getText().length()).toUpperCase().equals(jTextField4.getText().toUpperCase())){
+                            mode.addRow(new Object[] {comissarios.get(c).getNome(), comissarios.get(c).getCpf(), comissarios.get(c).getTelefone(), comissarios.get(c).getIdiomas()});
+                        }
+                    }
+                    catch(Exception e){}
+                }
+                break;
+            case 2:
+                for (int c = 0; c < comissarios.size(); c++){
+                    try{
+                        if(comissarios.get(c).getCpf().substring(0, jTextField4.getText().length()).equals(jTextField4.getText())){
+                            mode.addRow(new Object[] {comissarios.get(c).getNome(), comissarios.get(c).getCpf(), comissarios.get(c).getTelefone(), comissarios.get(c).getIdiomas()});
+                        }
+                    }
+                    catch(Exception e){}
+                }
+                break;
+            case 3:
+                for (int c = 0; c < pilotos.size(); c++){
+                    try{
+                        if(comissarios.get(c).getTelefone().substring(0, jTextField4.getText().length()).equals(jTextField4.getText())){
+                            mode.addRow(new Object[] {comissarios.get(c).getNome(), comissarios.get(c).getCpf(), comissarios.get(c).getTelefone(), comissarios.get(c).getIdiomas()});
+                        }                        
+                    }
+                    catch(Exception e){}
+
+                }
+                break;
+            case 4:
+                for (int c = 0; c < comissarios.size(); c++){
+                    try{
+                        if(comissarios.get(c).getIdiomas().substring(0, jTextField4.getText().length()).toUpperCase().equals(jTextField4.getText().toUpperCase())){
+                            mode.addRow(new Object[] {comissarios.get(c).getNome(), comissarios.get(c).getCpf(), comissarios.get(c).getTelefone(), comissarios.get(c).getIdiomas()});
+                        }                        
+                    }
+                    catch(Exception e){}
+                }
+                break;
+        }
+    }
     /**
      * @param args the command line arguments
      */
@@ -765,5 +944,9 @@ public class ManterFuncionario extends javax.swing.JFrame {
     private MyJButton myJButton6;
     private TableStyle tableStyle1;
     private TableStyle tableStyle2;
+    private ArrayList<Piloto> pilotos = App.getPilotos();
+    private ArrayList<Comissario> comissarios = App.getComissarios();
+    private boolean alterarcomissario = false;
+    private boolean alterarpiloto = false;
     // End of variables declaration//GEN-END:variables
 }

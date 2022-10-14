@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -73,7 +75,7 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -85,16 +87,32 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
 
         jComboBox1.setBackground(new java.awt.Color(0, 118, 128));
         jComboBox1.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Local Partida", "Data" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Buscar por", "Nome", "CPF", "Telefone" }));
+
 
         jTextField1.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 196, 204), 2, true));
         jTextField1.setCaretColor(new java.awt.Color(0, 196, 204));
+        jTextField1.getDocument().addDocumentListener(new DocumentListener() {
+            public void changedUpdate(DocumentEvent e){}
+            public void insertUpdate(DocumentEvent e){
+                buscar();
+            }
+            public void removeUpdate(DocumentEvent e){
+                if(jTextField1.getText().trim().isEmpty()){
+                    DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+                    while(mode.getRowCount() != 0){
+                        mode.removeRow(0);
+                    }
+                    for(int i=0;i<passageiros.size();i++){
+                        mode.addRow(new Object[] {passageiros.get(i).getNome(), passageiros.get(i).getCpf(), passageiros.get(i).getTelefone()});
+                    }
+                }
+                else{
+                    buscar();
+                }
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -136,11 +154,7 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
         jTextField2.setBackground(new java.awt.Color(207, 241, 246));
         jTextField2.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+
 
         jPanel4.setBackground(new java.awt.Color(0, 196, 204));
 
@@ -170,20 +184,12 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
         jTextField5.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField5.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jTextField5.setCaretColor(new java.awt.Color(0, 204, 204));
-        jTextField5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField5ActionPerformed(evt);
-            }
-        });
+
 
         jTextField6.setBackground(new java.awt.Color(207, 241, 246));
         jTextField6.setFont(new java.awt.Font("Tw Cen MT", 0, 14)); // NOI18N
         jTextField6.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        jTextField6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField6ActionPerformed(evt);
-            }
-        });
+
 
         myJButton1.setText("Alterar");
         myJButton1.setCorHover(new java.awt.Color(0, 200, 142));
@@ -200,7 +206,7 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
         myJButton2.setActionCommand("");
         myJButton2.setCorHover(new java.awt.Color(0, 200, 142));
         myJButton2.setCorSelected(new java.awt.Color(255, 0, 0));
-        myJButton2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
+        myJButton2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 17)); // NOI18N
         myJButton2.setRadius(20);
         myJButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -296,33 +302,103 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        
-    }//GEN-LAST:event_jTextField6ActionPerformed
-
-    private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
-        
-    }//GEN-LAST:event_jTextField5ActionPerformed
-
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton1ActionPerformed
-        
+        if(alterar){
+            alterar = false;
+            passageiros.remove(tableStyle1.getSelectedRow());
+            jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null);
+            myJButton1.setText("ALTERAR");
+            myJButton2.setText("CADASTRAR");
+            DefaultTableModel model = (DefaultTableModel) tableStyle1.getModel();
+            model.removeRow(tableStyle1.getSelectedRow());
+        }
+        else{
+            if(tableStyle1.getSelectedRow() != -1){
+                alterar = true;
+                Passageiro passageiro = passageiros.get(tableStyle1.getSelectedRow());
+                jTextField6.setText(passageiro.getNome());
+                jTextField2.setText(passageiro.getCpf());
+                jTextField5.setText(passageiro.getTelefone());
+                myJButton2.setText("CONFIRMAR");
+                myJButton1.setText("EXCLUIR");
+            }
+        }
+
     }//GEN-LAST:event_myJButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
-        if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
+        if(alterar){
+            alterar = false;
+            Passageiro passageiro = passageiros.get(tableStyle1.getSelectedRow());
+            passageiro.setNome(jTextField6.getText());
+            passageiro.setCpf(jTextField2.getText());
+            passageiro.setTelefone(jTextField5.getText());
+
+            tableStyle1.setValueAt(jTextField6.getText(), tableStyle1.getSelectedRow(), 0);
+            tableStyle1.setValueAt(jTextField2.getText(), tableStyle1.getSelectedRow(), 1);
+            tableStyle1.setValueAt(jTextField5.getText(), tableStyle1.getSelectedRow(), 2);
+
+            jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null);
+
+            myJButton1.setText("ALTERAR");
+            myJButton2.setText("CADASTRAR");
+        }
         else{
-            ArrayList<Passageiro> passageiros = App.getPassageiros();
-            Passageiro novoPassageiro = new Passageiro(jTextField6.getText(),jTextField2.getText(),jTextField5.getText());
-            passageiros.add(novoPassageiro);
-            App.setPassageiros(passageiros);
-            DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
-            //Inserir valores na tabela
-            mode.addRow(new Object[] {novoPassageiro.getNome(), novoPassageiro.getCpf(),novoPassageiro.getTelefone()});
-            jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);
+            if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
+            else{
+                Passageiro novoPassageiro = new Passageiro(jTextField6.getText(),jTextField2.getText(),jTextField5.getText());
+                passageiros.add(novoPassageiro);
+                DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+                //Inserir valores na tabela
+                mode.addRow(new Object[] {novoPassageiro.getNome(), novoPassageiro.getCpf(),novoPassageiro.getTelefone()});
+                jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);
+            }
+        }
+    }
+
+    private void buscar(){
+        DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
+        while(mode.getRowCount() != 0){
+            mode.removeRow(0);
+        }
+        switch(jComboBox1.getSelectedIndex()){
+            case 0:
+                for (int c = 0; c < passageiros.size(); c++){
+                    mode.addRow(new Object[] {passageiros.get(c).getNome(), passageiros.get(c).getCpf(), passageiros.get(c).getTelefone()});
+                }
+                break;
+            case 1:
+                for (int c = 0; c < passageiros.size(); c++){
+                    try{
+                        if(passageiros.get(c).getNome().substring(0, jTextField1.getText().length()).toUpperCase().equals(jTextField1.getText().toUpperCase())){
+                            mode.addRow(new Object[] {passageiros.get(c).getNome(), passageiros.get(c).getCpf(),passageiros.get(c).getTelefone()});
+                        }
+                    }
+                    catch(Exception e){}
+                }
+                break;
+            case 2:
+                for (int c = 0; c < passageiros.size(); c++){
+                    try{
+                        if(passageiros.get(c).getCpf().substring(0, jTextField1.getText().length()).equals(jTextField1.getText())){
+                            mode.addRow(new Object[] {passageiros.get(c).getNome(), passageiros.get(c).getCpf(),passageiros.get(c).getTelefone()});
+                        }
+                    }
+                    catch(Exception e){}
+                }
+                break;
+            case 3:
+                for (int c = 0; c < passageiros.size(); c++){
+                    try{
+                        if(passageiros.get(c).getTelefone().substring(0, jTextField1.getText().length()).equals(jTextField1.getText())){
+                            mode.addRow(new Object[] {passageiros.get(c).getNome(), passageiros.get(c).getCpf(),passageiros.get(c).getTelefone()});
+                        }                        
+                    }
+                    catch(Exception e){}
+
+                }
+                break;
+
         }
     }
         
@@ -332,10 +408,6 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
         PrimeiraTela.iniciar();
         this.dispose();
     }//GEN-LAST:event_myJButton3ActionPerformed
-
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        
-    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,6 +470,7 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     private MyJButton myJButton2;
     private MyJButton myJButton3;
     private TableStyle tableStyle1;
+    private boolean alterar = false;
     
     // End of variables declaration//GEN-END:variables
 }
