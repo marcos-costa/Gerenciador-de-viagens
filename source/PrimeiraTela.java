@@ -31,7 +31,7 @@ public class PrimeiraTela extends javax.swing.JFrame {
         tableStyle1.setColumnAlignment(5,JLabel.CENTER);
         DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
         for(int i=0;i<=30;i++){
-        mode.addRow(new Object[] {"ui", "Uepa","oi","cavalo","xiiiii","13/13/13"});
+        mode.addRow(new Object[] {"1", "2","3","4","5","6"});
     }
     }
 
