@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.table.DefaultTableModel;
+import javax.swing.JLabel;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 
@@ -21,6 +22,13 @@ public class PrimeiraTela extends javax.swing.JFrame {
      */
     public PrimeiraTela() {
         initComponents();
+        tableStyle1.newScrollBar(jScrollPane2);
+        tableStyle1.setColumnAlignment(0,JLabel.CENTER);
+        tableStyle1.setColumnAlignment(1,JLabel.CENTER);
+        tableStyle1.setColumnAlignment(2,JLabel.CENTER);
+        tableStyle1.setColumnAlignment(3,JLabel.CENTER);
+        tableStyle1.setColumnAlignment(4,JLabel.CENTER);
+        tableStyle1.setColumnAlignment(5,JLabel.CENTER);
         DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
         for(int i=0;i<=30;i++){
         mode.addRow(new Object[] {"ui", "Uepa","oi","cavalo","xiiiii","13/13/13"});
