@@ -21,6 +21,14 @@ public class Viagem implements Serializable{
         adicionarComissario(comissarios);
         this.passageiros = new ArrayList<Passageiro>();
     }
+    public Viagem(String CidPartida, String CidChegada, String HoraPartida, String HoraChegada, String data){
+        this.CidPartida = CidPartida;
+        this.CidChegada = CidChegada;
+        this.HoraPartida = HoraPartida;
+        this.HoraChegada = HoraChegada;
+        this.data = data;
+        this.passageiros = new ArrayList<Passageiro>();
+    }
 
     public String getCidPartida() {
         return CidPartida;
@@ -105,10 +113,11 @@ public class Viagem implements Serializable{
     }
     
     public void adicionarPassageiro(Passageiro passageiro){
-        if (passageiros.size() < aviao.getCapacidadeMaxima()){
-            this.passageiros.add(passageiro);
-            passageiro.adicionarViagem(this);
-        }
+        this.passageiros.add(passageiro);
+        //if (passageiros.size() < aviao.getCapacidadeMaxima()){
+            
+            //passageiro.adicionarViagem(this);
+        //}
     }
 
     public void adicionarComissario(ArrayList<Comissario> comissarios){

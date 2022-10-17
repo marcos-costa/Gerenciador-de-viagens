@@ -5,6 +5,7 @@
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JLabel;
@@ -16,11 +17,12 @@ import org.netbeans.lib.awtextra.AbsoluteConstraints;
  * @author Valéria
  */
 public class PrimeiraTela extends javax.swing.JFrame {
-
+    private ArrayList<Viagem>viagens = App.getViagens();
     /**
      * Creates new form PrimeiraTela
      */
     public PrimeiraTela() {
+        Viagem viagem;
         initComponents();
         tableStyle1.newScrollBar(jScrollPane2);
         tableStyle1.setColumnAlignment(0,JLabel.CENTER);
@@ -30,8 +32,8 @@ public class PrimeiraTela extends javax.swing.JFrame {
         tableStyle1.setColumnAlignment(4,JLabel.CENTER);
         tableStyle1.setColumnAlignment(5,JLabel.CENTER);
         DefaultTableModel mode = (DefaultTableModel) tableStyle1.getModel();
-        for(int i=0;i<=30;i++){
-        mode.addRow(new Object[] {"1", "2","3","4","5","6"});
+        for(int i=0;i<viagens.size();i++){
+            mode.addRow(new Object[] {i,viagens.get(i).getCidPartida(), viagens.get(i).getCidChegada(), viagens.get(i).getHoraPartida(),viagens.get(i).getHoraChegada(),viagens.get(i).getdata()});
     }
     }
 
@@ -155,7 +157,7 @@ public class PrimeiraTela extends javax.swing.JFrame {
             }
         });
 
-        myJButton2.setText("CADASTRAR");
+        myJButton2.setText("EXCLUIR");
         myJButton2.setCorHover(new java.awt.Color(0, 200, 142));
         myJButton2.setCorSelected(new java.awt.Color(255, 0, 0));
         myJButton2.setFont(new java.awt.Font("Tw Cen MT Condensed", 0, 18)); // NOI18N
@@ -221,13 +223,19 @@ public class PrimeiraTela extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        ManterViagem.iniciar();
-        this.dispose();
+        if(tableStyle1.getSelectedRow() != -1){
+        Integer viagem = tableStyle1.getSelectedRow();
+        ManterViagem.iniciar(viagem);
+        this.dispose();}
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        ManterViagem.iniciar();
-        this.dispose();
+        if(tableStyle1.getSelectedRow() != -1){
+        Integer viagem = tableStyle1.getSelectedRow();
+        viagens.remove(viagens.get(viagem));
+        DefaultTableModel model = (DefaultTableModel) tableStyle1.getModel();
+        model.removeRow(tableStyle1.getSelectedRow());
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
