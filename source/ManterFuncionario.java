@@ -611,19 +611,19 @@ public class ManterFuncionario extends javax.swing.JFrame {
 
 
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton1ActionPerformed
-        if(alterarpiloto){
-            alterarpiloto = false;
-            pilotos.remove(tableStyle1.getSelectedRow());
+        if(alterarpiloto != -2){
+            pilotos.remove(alterarpiloto);
             jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null); jComboBox2.setSelectedIndex(0);
             myJButton1.setText("ALTERAR");
             myJButton2.setText("CADASTRAR");
             DefaultTableModel model = (DefaultTableModel) tableStyle1.getModel();
-            model.removeRow(tableStyle1.getSelectedRow());
+            model.removeRow(alterarpiloto);
+            alterarpiloto = -2;
         }
         else{
-            if(tableStyle1.getSelectedRow() != -1){
-                alterarpiloto = true;
-                Piloto piloto = pilotos.get(tableStyle1.getSelectedRow());
+            if(alterarpiloto != -1){
+                alterarpiloto = tableStyle1.getSelectedRow();
+                Piloto piloto = pilotos.get(alterarpiloto);
                 jTextField6.setText(piloto.getNome());
                 jTextField2.setText(piloto.getCpf());
                 jTextField5.setText(piloto.getTelefone());
@@ -638,9 +638,8 @@ public class ManterFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_myJButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
-        if(alterarpiloto){
-            alterarpiloto = false;
-            Piloto piloto = pilotos.get(tableStyle1.getSelectedRow());
+        if(alterarpiloto != -2){
+            Piloto piloto = pilotos.get(alterarpiloto);
 
             piloto.setNome(jTextField6.getText());
             piloto.setCpf(jTextField2.getText());
@@ -649,13 +648,14 @@ public class ManterFuncionario extends javax.swing.JFrame {
             
             jTextField2.setText(null);jTextField5.setText(null);jTextField6.setText(null);jComboBox2.setSelectedIndex(0);
 
-            tableStyle1.setValueAt(piloto.getNome(), tableStyle1.getSelectedRow(), 0);
-            tableStyle1.setValueAt(piloto.getCpf(), tableStyle1.getSelectedRow(), 1);
-            tableStyle1.setValueAt(piloto.getTelefone(), tableStyle1.getSelectedRow(), 2);
-            tableStyle1.setValueAt(piloto.getHabilitacao(), tableStyle1.getSelectedRow(), 3);
+            tableStyle1.setValueAt(piloto.getNome(), alterarpiloto, 0);
+            tableStyle1.setValueAt(piloto.getCpf(), alterarpiloto, 1);
+            tableStyle1.setValueAt(piloto.getTelefone(), alterarpiloto, 2);
+            tableStyle1.setValueAt(piloto.getHabilitacao(), alterarpiloto, 3);
 
             myJButton1.setText("ALTERAR");
             myJButton2.setText("CADASTRAR");
+            alterarpiloto = -2;
         }
         else{
             if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
@@ -679,19 +679,19 @@ public class ManterFuncionario extends javax.swing.JFrame {
 
 
     private void myJButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton4ActionPerformed
-        if(alterarcomissario){
-            alterarcomissario = false;
-            comissarios.remove(tableStyle2.getSelectedRow());
+        if(alterarcomissario != -2){
+            comissarios.remove(alterarcomissario);
             jTextField8.setText(null); jTextField3.setText(null); jTextField7.setText(null); jComboBox3.setSelectedIndex(0);
             myJButton4.setText("ALTERAR");
             myJButton5.setText("CADASTRAR");
             DefaultTableModel model = (DefaultTableModel) tableStyle2.getModel();
-            model.removeRow(tableStyle2.getSelectedRow());
+            model.removeRow(alterarcomissario);
+            alterarcomissario = -2;
         }
         else{
-            if(tableStyle2.getSelectedRow() != -1){
-                alterarcomissario = true;
-                Comissario comissario = comissarios.get(tableStyle2.getSelectedRow());
+            if(alterarcomissario != -1){
+                alterarcomissario = tableStyle2.getSelectedRow();
+                Comissario comissario = comissarios.get(alterarcomissario);
                 jTextField8.setText(comissario.getNome());
                 jTextField3.setText(comissario.getCpf());
                 jTextField7.setText(comissario.getTelefone());
@@ -713,9 +713,8 @@ public class ManterFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_myJButton4ActionPerformed
 
     private void myJButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton5ActionPerformed
-        if(alterarcomissario){
-            alterarcomissario = false;
-            Comissario comissario = comissarios.get(tableStyle2.getSelectedRow());
+        if(alterarcomissario != -2){
+            Comissario comissario = comissarios.get(alterarcomissario);
 
             comissario.setNome(jTextField8.getText());
             comissario.setCpf(jTextField3.getText());
@@ -724,13 +723,14 @@ public class ManterFuncionario extends javax.swing.JFrame {
             
             jTextField8.setText(null);jTextField3.setText(null);jTextField7.setText(null);jComboBox3.setSelectedIndex(0);
 
-            tableStyle2.setValueAt(comissario.getNome(), tableStyle2.getSelectedRow(), 0);
-            tableStyle2.setValueAt(comissario.getCpf(), tableStyle2.getSelectedRow(), 1);
-            tableStyle2.setValueAt(comissario.getTelefone(), tableStyle2.getSelectedRow(), 2);
-            tableStyle2.setValueAt(comissario.getIdiomas(), tableStyle2.getSelectedRow(), 3);
+            tableStyle2.setValueAt(comissario.getNome(), alterarcomissario, 0);
+            tableStyle2.setValueAt(comissario.getCpf(), alterarcomissario, 1);
+            tableStyle2.setValueAt(comissario.getTelefone(), alterarcomissario, 2);
+            tableStyle2.setValueAt(comissario.getIdiomas(), alterarcomissario, 3);
 
             myJButton4.setText("ALTERAR");
             myJButton5.setText("CADASTRAR");
+            alterarcomissario = -2;
         }
         else{
             if (jTextField3.getText().trim().isEmpty() && jTextField7.getText().trim().isEmpty() && jTextField8.getText().trim().isEmpty());
@@ -946,7 +946,7 @@ public class ManterFuncionario extends javax.swing.JFrame {
     private TableStyle tableStyle2;
     private ArrayList<Piloto> pilotos = App.getPilotos();
     private ArrayList<Comissario> comissarios = App.getComissarios();
-    private boolean alterarcomissario = false;
-    private boolean alterarpiloto = false;
+    private int alterarcomissario = -2;
+    private int alterarpiloto = -2;
     // End of variables declaration//GEN-END:variables
 }

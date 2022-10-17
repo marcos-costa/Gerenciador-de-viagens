@@ -303,19 +303,19 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton1ActionPerformed
-        if(alterar){
-            alterar = false;
-            passageiros.remove(tableStyle1.getSelectedRow());
+        if(alterar != -2){
+            passageiros.remove(alterar);
             jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null);
             myJButton1.setText("ALTERAR");
             myJButton2.setText("CADASTRAR");
             DefaultTableModel model = (DefaultTableModel) tableStyle1.getModel();
-            model.removeRow(tableStyle1.getSelectedRow());
+            model.removeRow(alterar);
+            alterar = -2;
         }
         else{
-            if(tableStyle1.getSelectedRow() != -1){
-                alterar = true;
-                Passageiro passageiro = passageiros.get(tableStyle1.getSelectedRow());
+            if(alterar != -1){
+                alterar = tableStyle1.getSelectedRow();
+                Passageiro passageiro = passageiros.get(alterar);
                 jTextField6.setText(passageiro.getNome());
                 jTextField2.setText(passageiro.getCpf());
                 jTextField5.setText(passageiro.getTelefone());
@@ -327,21 +327,21 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     }//GEN-LAST:event_myJButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
-        if(alterar){
-            alterar = false;
-            Passageiro passageiro = passageiros.get(tableStyle1.getSelectedRow());
+        if(alterar != -2){
+            Passageiro passageiro = passageiros.get(alterar);
             passageiro.setNome(jTextField6.getText());
             passageiro.setCpf(jTextField2.getText());
             passageiro.setTelefone(jTextField5.getText());
 
-            tableStyle1.setValueAt(jTextField6.getText(), tableStyle1.getSelectedRow(), 0);
-            tableStyle1.setValueAt(jTextField2.getText(), tableStyle1.getSelectedRow(), 1);
-            tableStyle1.setValueAt(jTextField5.getText(), tableStyle1.getSelectedRow(), 2);
+            tableStyle1.setValueAt(jTextField6.getText(), alterar, 0);
+            tableStyle1.setValueAt(jTextField2.getText(), alterar, 1);
+            tableStyle1.setValueAt(jTextField5.getText(), alterar, 2);
 
             jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null);
 
             myJButton1.setText("ALTERAR");
             myJButton2.setText("CADASTRAR");
+            alterar = -2;
         }
         else{
             if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
@@ -470,7 +470,7 @@ public class CadastrarPassageiro extends javax.swing.JFrame {
     private MyJButton myJButton2;
     private MyJButton myJButton3;
     private TableStyle tableStyle1;
-    private boolean alterar = false;
+    private int alterar = -2;
     
     // End of variables declaration//GEN-END:variables
 }

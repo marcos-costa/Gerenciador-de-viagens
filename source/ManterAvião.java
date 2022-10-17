@@ -304,21 +304,21 @@ public class ManterAvião extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void myJButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton1ActionPerformed
-        if(alterar){
-            alterar = false;
-            avioes.remove(tableStyle1.getSelectedRow());
+        if(alterar != -2){
+            avioes.remove(alterar);
             DefaultTableModel model = (DefaultTableModel) tableStyle1.getModel();
-            model.removeRow(tableStyle1.getSelectedRow());
+            model.removeRow(alterar);
             jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null);
             myJButton1.setText("ALTERAR");
             myJButton2.setText("CADASTRAR");
+            alterar = -2;
         }
         else{
-            if(tableStyle1.getSelectedRow() != -1){
-                alterar = true;
-                jTextField6.setText(avioes.get(tableStyle1.getSelectedRow()).getModelo());
-                jTextField2.setText(Integer.toString(avioes.get(tableStyle1.getSelectedRow()).getCapacidadeMaxima()));
-                jTextField5.setText(Integer.toString(avioes.get(tableStyle1.getSelectedRow()).getNumeroMaximoViagens()));
+            if(alterar != -1){
+                alterar = tableStyle1.getSelectedRow();
+                jTextField6.setText(avioes.get(alterar).getModelo());
+                jTextField2.setText(Integer.toString(avioes.get(alterar).getCapacidadeMaxima()));
+                jTextField5.setText(Integer.toString(avioes.get(alterar).getNumeroMaximoViagens()));
 
                 myJButton1.setText("EXCLUIR");
                 myJButton2.setText("CONFIRMAR");
@@ -327,22 +327,22 @@ public class ManterAvião extends javax.swing.JFrame {
     }//GEN-LAST:event_myJButton1ActionPerformed
 
     private void myJButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_myJButton2ActionPerformed
-        if(alterar){
-            alterar = false;
-            Aviao aviao = avioes.get(tableStyle1.getSelectedRow());
+        if(alterar != -2){
+            Aviao aviao = avioes.get(alterar);
 
             aviao.setModelo(jTextField6.getText());
             aviao.setCapacidadeMaxima(Integer.parseInt(jTextField2.getText()));
             aviao.setNumeroMaximoViagens(Integer.parseInt(jTextField5.getText()));
 
-            tableStyle1.setValueAt(jTextField6.getText(), tableStyle1.getSelectedRow(), 0);
-            tableStyle1.setValueAt(jTextField2.getText(), tableStyle1.getSelectedRow(), 1);
-            tableStyle1.setValueAt(jTextField5.getText(), tableStyle1.getSelectedRow(), 2);
+            tableStyle1.setValueAt(jTextField6.getText(), alterar, 0);
+            tableStyle1.setValueAt(jTextField2.getText(), alterar, 1);
+            tableStyle1.setValueAt(jTextField5.getText(), alterar, 2);
 
             jTextField6.setText(null); jTextField2.setText(null); jTextField5.setText(null);
 
             myJButton1.setText("ALTERAR");
             myJButton2.setText("CADASTRAR");
+            alterar = -2;
         }
         else{
             if (jTextField2.getText().trim().isEmpty() && jTextField5.getText().trim().isEmpty() && jTextField6.getText().trim().isEmpty());
@@ -471,6 +471,6 @@ public class ManterAvião extends javax.swing.JFrame {
     private MyJButton myJButton3;
     private TableStyle tableStyle1;
     private ArrayList<Aviao> avioes = App.getAvioes();
-    private boolean alterar = false;
+    private int alterar = 0;
     // End of variables declaration//GEN-END:variables
 }
